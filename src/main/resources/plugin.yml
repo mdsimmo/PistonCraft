@@ -1,6 +1,6 @@
 name: PistonCraft
 main: com.github.mdsimmo.pistoncraft.PistonCraft
-version: 0.1.2
+version: 0.2.0
 
 commands:
   pcreload:
