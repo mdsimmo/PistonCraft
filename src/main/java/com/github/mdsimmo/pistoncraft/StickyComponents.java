@@ -51,8 +51,10 @@ public class StickyComponents implements Listener {
 
         // move things sitting on top
         Block over = block.getRelative( BlockFace.UP );
-        if ( over.getPistonMoveReaction() == PistonMoveReaction.BREAK ) {
+        if ( over.getPistonMoveReaction() == PistonMoveReaction.BREAK
+                || over.getType() == Material.CARPET ) {
             // don't move attachable items that are not attached
+            // attahed items will already have been added
             MaterialData data = block.getState().getData();
             if ( !(data instanceof Attachable) ) {
                 attached.add( over );
