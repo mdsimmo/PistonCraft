@@ -1,3 +1,19 @@
 name: PistonCraft
 main: com.github.mdsimmo.pistoncraft.PistonCraft
 version: 0.1.2
+
+commands:
+  pcreload:
+    description: Reloads PistonCraft's config file
+    usage: /<pcreload
+    permission: pistoncraft.reload
+    permission-message: You don't have permission to reload PistonCraft
+
+permissions:
+  pistoncraft.*:
+    description: Gives access to all PistonCraft commands
+    children:
+      pistoncraft.reload: true
+  pistoncraft.reload:
+    description: Allows you to reload PistonCrafts config
+    default: op
