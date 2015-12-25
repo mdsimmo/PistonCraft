@@ -13,6 +13,7 @@ import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.block.BlockPistonRetractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.Attachable;
+import org.bukkit.material.Button;
 import org.bukkit.material.MaterialData;
 import org.bukkit.plugin.Plugin;
 
@@ -53,11 +54,14 @@ public class StickyComponents implements Listener {
         Block over = block.getRelative( BlockFace.UP );
         if ( over.getPistonMoveReaction() == PistonMoveReaction.BREAK
                 || over.getType() == Material.CARPET ) {
-            // don't move attachable items that are not attached
-            // attahed items will already have been added
-            MaterialData data = block.getState().getData();
-            if ( !(data instanceof Attachable) ) {
-                attached.add( over );
+            // only move liquids if told to
+            if ( !Utils.isLiquid( over.getType() ) || Config.moveLiquid ) {
+                // don't move attachable items that are not attached
+                // (attached attached items will already have been added)
+                MaterialData data = over.getState().getData();
+                if ( !(data instanceof Attachable) ) {
+                    attached.add( over );
+                }
             }
         }
 
@@ -86,7 +90,7 @@ public class StickyComponents implements Listener {
         for ( Block b : blocks )
             dropLookup.put( b.getState(), b.getDrops() );
 
-        // destroy all blocks
+        // destroy all blocks data
         for ( Block b : blocks )
             b.setType( Material.AIR, false );
         for ( Block b : blocks )
@@ -111,9 +115,9 @@ public class StickyComponents implements Listener {
                         to.setType( from.getType() );
                         to.setData( from.getData() );
 
-                        /*// Buttons will get stuck on - just turn them off
+                        // Buttons will get stuck on - just turn them off
                         if ( to.getData() instanceof Button )
-                            ((Button) to.getData()).setPowered( false );*/
+                            ((Button) to.getData()).setPowered( false );
 
                         // don't update yet - that's done below
                         to.update( true, false );
