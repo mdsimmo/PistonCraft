@@ -12,10 +12,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.block.BlockPistonRetractEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.Attachable;
-import org.bukkit.material.Button;
-import org.bukkit.material.MaterialData;
-import org.bukkit.material.PressurePlate;
+import org.bukkit.material.*;
 import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
@@ -87,7 +84,7 @@ public class StickyComponents implements Listener {
     }
 
     private void shiftBlocks( final List<Block> blocks, final BlockFace direction ) {
-        // save what the blocks would drop in case we need it later
+        // save the blocks state and what each block drops
         final HashMap<BlockState, Collection<ItemStack>> dropLookup = new HashMap<>( blocks.size());
         for ( Block b : blocks )
             dropLookup.put( b.getState(), b.getDrops() );
@@ -95,6 +92,7 @@ public class StickyComponents implements Listener {
         // destroy all blocks data
         for ( Block b : blocks )
             b.setType( Material.AIR, false );
+        // update any surrounding blocks with the block removed
         for ( Block b : blocks )
             update( b );
 
