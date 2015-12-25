@@ -15,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.Attachable;
 import org.bukkit.material.Button;
 import org.bukkit.material.MaterialData;
+import org.bukkit.material.PressurePlate;
 import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
@@ -53,7 +54,8 @@ public class StickyComponents implements Listener {
         // move things sitting on top
         Block over = block.getRelative( BlockFace.UP );
         if ( over.getPistonMoveReaction() == PistonMoveReaction.BREAK
-                || over.getType() == Material.CARPET ) {
+                || over.getType() == Material.CARPET
+                || over.getState().getData() instanceof PressurePlate ) {
             // only move liquids if told to
             if ( !Utils.isLiquid( over.getType() ) || Config.moveLiquid ) {
                 // don't move attachable items that are not attached
